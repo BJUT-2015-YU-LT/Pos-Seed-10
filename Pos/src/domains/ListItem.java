@@ -17,6 +17,7 @@ public class ListItem extends Item{
         this.unit = item.unit;
         this.price = item.price;
         this.discount = item.discount;
+        this.vipdiscount = item.vipdiscount;
         this.amount = 1;
         this.subTotal = this.price*this.discount;
         BigDecimal b1 = new BigDecimal(Double.toString(1));
@@ -30,9 +31,15 @@ public class ListItem extends Item{
     public void add()
     {
         this.amount+=1;
-        this.subTotal+=this.price*this.discount;
-        this.saveMoney+=this.price*(1-this.discount);
-        this.num = this.amount/3;
+        this.subTotal+=this.price*this.discount*vipdiscount;
+        BigDecimal b1 = new BigDecimal(Double.toString(1));
+        BigDecimal b2 = new BigDecimal(Double.toString(discount*vipdiscount));
+        double a = b1.subtract(b2).doubleValue();
+        this.saveMoney+=this.price*(1-a);
+        if(vipdiscount!=1.0)
+            this.num = 0;
+        else
+            this.num = this.amount/3;
     }
 
     public double getSubTotal() {
