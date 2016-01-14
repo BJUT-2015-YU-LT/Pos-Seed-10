@@ -31,21 +31,13 @@ public class Pos {
                 .append("----------------------\n");
 
         for (int i = 0; i < listItems.size(); i++) {
+            listItems.get(i).getResult();
             stringBuilder
                     .append("名称：").append(listItems.get(i).getName()).append("，");
-            if(listItems.get(i).canBePromotion()) {
-                stringBuilder
-                        .append("数量：").append(listItems.get(i).getAmount()+1).append(listItems.get(i).getUnit()).append("，");
-            }
-            else
-            {
-                stringBuilder
-                        .append("数量：").append(listItems.get(i).getAmount() ).append(listItems.get(i).getUnit()).append("，");
-            }
-
+            stringBuilder
+                    .append("数量：").append(listItems.get(i).getAmount()).append(listItems.get(i).getUnit()).append("，");
             stringBuilder
                     .append("单价：").append(String.format("%.2f", listItems.get(i).getPrice()));
-
             stringBuilder
                     .append("(元)").append("，")
                     .append("小计：").append(String.format("%.2f", listItems.get(i).getSubTotal()))
@@ -57,9 +49,22 @@ public class Pos {
             totalMoney+=listItems.get(i).getSubTotal();
             totalSaveMoney+=listItems.get(i).getSaveMoney();
         }
+        if (shoppingListChart.isPromotion()) {
+            stringBuilder
+                    .append("----------------------\n挥泪赠送商品:\n");
+            for (int i = 0; i < listItems.size(); i++) {
 
+                if (listItems.get(i).canBePromotion()) {
+                    stringBuilder
+                            .append("名称：").append(listItems.get(i).getName()).append("，")
+                            .append("数量：").append(listItems.get(i).getNum()).append(listItems.get(i).getUnit()).append("\n");
+                }
+            }
+            stringBuilder.append("----------------------\n");
+        }
         stringBuilder.append("总价：").append(totalMoney).append("(元)").append("\n");
-        stringBuilder.append("节省金额：").append(totalSaveMoney).append("（元）").append("\n");
+        if(totalMoney!=0)
+            stringBuilder.append("节省金额：").append(totalSaveMoney).append("（元）").append("\n");
         stringBuilder.append("**********************\n");
         return stringBuilder.toString();
     }

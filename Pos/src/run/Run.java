@@ -47,16 +47,18 @@ public class Run {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             String barCode=jsonObject.getString("barcode");
             double price = Double.parseDouble(jsonObject.getString("price"));
-            double discount;
+            double discount;    boolean promotion;
             Item item;
-            if(jsonObject.getString("isdiscount").equals("true")) {
+            if(jsonObject.getString("isdiscount").equals("true"))
                 discount = Double.parseDouble(jsonObject.getString("discount"));
-                item = new Item(jsonObject.getString("barcode"), jsonObject.getString("name"),
-                        jsonObject.getString("unit"), price, discount);
-            }
             else
-                item = new Item(jsonObject.getString("barcode"), jsonObject.getString("name"),
-                        jsonObject.getString("unit"), price);
+                discount = 1.0;
+            if(jsonObject.getString("promotion").equals("true"))
+                promotion = true;
+            else
+                promotion = false;
+            item = new Item(barCode,jsonObject.getString("name"),jsonObject.getString("unit"),price,
+                    discount,jsonObject.getBoolean("isdiscount"),jsonObject.getBoolean("promotion"));
             if(!item.iseffect())
             {
                 System.out.println("Discount or price has wrong,barcode"+item.getBarCode());

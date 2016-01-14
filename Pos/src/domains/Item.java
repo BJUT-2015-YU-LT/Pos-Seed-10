@@ -10,24 +10,17 @@ public class Item {
     protected double price;
     protected double discount;
     protected boolean isdiscount;
+    protected boolean promotion;
     public Item(){}
 
-    public Item(String barCode, String name, String unit, double price) {
-        this.barCode = barCode;
-        this.name = name;
-        this.unit = unit;
-        this.price = price;
-        this.discount = 1;
-        this.isdiscount = false;
-    }
-
-    public Item(String barCode, String name, String unit, double price,double discount) {
+    public Item(String barCode, String name, String unit, double price,double discount,boolean isdiscount,boolean promotion) {
         this.barCode = barCode;
         this.name = name;
         this.unit = unit;
         this.price = price;
         this.discount = discount;
-        this.isdiscount = true;
+        this.isdiscount = isdiscount;
+        this.promotion = promotion;
     }
 
     public boolean isNull()
@@ -40,6 +33,8 @@ public class Item {
         if(discount>1||discount<0)
             return false;
         if(price<0)
+            return false;
+        if(isdiscount==true&&promotion==true)
             return false;
         return true;
     }
