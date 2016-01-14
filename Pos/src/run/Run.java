@@ -32,26 +32,45 @@ public class Run {
     */
     public ShoppingChart Index() throws  Exception
     {
-        String path = "C:\\Users\\hp\\IdeaProjects\\Pos\\pos2.json";
-        String JsonContext = new Run().ReadFile(path);
+        Run run = new Run();
+        String pathindex = "C:\\Users\\hp\\IdeaProjects\\Pos\\index.json";
+        String JsonContext = run.ReadFile(pathindex);
+        String pathlist = "C:\\Users\\hp\\IdeaProjects\\Pos\\list.json";
+        String JsonContextlist = run.ReadFile(pathlist);
         JSONArray jsonArray = JSONArray.fromObject(JsonContext);
+        JSONArray jsonArraylist = JSONArray.fromObject(JsonContextlist);
         ShoppingChart shoppingChart=new ShoppingChart();
         int size = jsonArray.size();
+        int sizelist = jsonArraylist.size();
         for(int i=0;i<size;i++)
         {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             String barCode=jsonObject.getString("barcode");
             double price = Double.parseDouble(jsonObject.getString("price"));
-            double discount = Double.parseDouble(jsonObject.getString("discount"));
-            Item item = new Item(jsonObject.getString("barcode"),jsonObject.getString("name"),
-                    jsonObject.getString("unit"),price,discount);
+            double discount;
+            Item item;
+            if(jsonObject.getString("isdiscount").equals("true")) {
+                discount = Double.parseDouble(jsonObject.getString("discount"));
+                item = new Item(jsonObject.getString("barcode"), jsonObject.getString("name"),
+                        jsonObject.getString("unit"), price, discount);
+            }
+            else
+                item = new Item(jsonObject.getString("barcode"), jsonObject.getString("name"),
+                        jsonObject.getString("unit"), price);
             if(!item.iseffect())
             {
                 System.out.println("Discount or price has wrong,barcode"+item.getBarCode());
             }
             if(!item.isNull()){
-                shoppingChart.add(item);
-            }else {
+                int j = 0;
+                while(j<jsonArraylist.size()) {
+                    if (jsonArraylist.get(j).equals(item.getBarCode())) {
+                        shoppingChart.add(item);
+                    }
+                    j++;
+                }
+            }
+            else {
                 System.out.println("Read error,item barcode: " + barCode);
             }
         }
