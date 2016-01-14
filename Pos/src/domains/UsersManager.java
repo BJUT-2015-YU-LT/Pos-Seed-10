@@ -4,82 +4,88 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import run.Run;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 /**
- * Created by HuYijia on 2015/1/7.
+ * Created by 枫 on 2015/1/7.
  */
 public class UsersManager {
     private boolean vip;
-    public UsersManager(){vip = false;}
+    private int integral;
+    private JSONArray user;
+    public UsersManager()
+    {
+        vip = false;
+        String context = new Run().ReadFile("C:\\Users\\hp\\IdeaProjects\\Pos\\index.json");
+        user = JSONArray.fromObject(context);
+        setIntegral();
+        setVip();
+    }
 
+    public void setIntegral()
+    {
+        String context = new Run().ReadFile("C:\\Users\\hp\\IdeaProjects\\Pos\\integral.json");
+        JSONArray u = JSONArray.fromObject(context);
+        JSONObject integral = (JSONObject) u.get(0);
+        this.integral = integral.getInt("integral");
+    }
+
+    public void setVip()
+    {
+        String context = new Run().ReadFile("C:\\Users\\hp\\IdeaProjects\\Pos\\user.json");
+        JSONArray u1 = JSONArray.fromObject(context);
+        JSONObject vip = (JSONObject) user.get(0);
+        for(int i=0;i<user.size();i++)
+        {
+            JSONObject user = (JSONObject) u1.get(i);
+            if(vip.getString("user").equals(user.getString("user")))
+                this.vip = user.getBoolean("isvip");
+        }
+    }
     public String getUserName() throws Exception
     {
-        String context = new Run().ReadFile("C:\\Users\\hp\\IdeaProjects\\Pos\\index.json");
-        JSONArray u = JSONArray.fromObject(context);
-        JSONObject user = (JSONObject) u.get(0);
+        JSONObject user = (JSONObject) this.user.get(0);
         return user.getString("user");
     }
 
-    /*public int getIntegral(String userName) throws Exception
+    public int getIntegral(String UserName) throws Exception { return integral; }
+
+    public void increaseIntegral(String userName,int increaseIntegral) throws Exception
     {
-        SAXReader saxReader = new SAXReader();
-        Document document;
-        document = saxReader.read("users.xml");
-        Element root = document.getRootElement();
-        Iterator<Element> iterator = root.elementIterator();
-
-        while (iterator.hasNext()) {
-            Element element = iterator.next();
-
-            if (element.attributeValue("type").equals(userName)) {
-                return Integer.parseInt(element.elementText("integral"));
-            }
-        }
-        return 0;
-    }*/
-
-    /*public void increaseIntegral(String userName,int increaseIntegral) throws Exception
-    {
-        SAXReader saxReader = new SAXReader();
-        Document document;
-        document = saxReader.read("users.xml");
-        Element root = document.getRootElement();
-        Iterator<Element> iterator = root.elementIterator();
-
-        while (iterator.hasNext()) {
-            Element element = iterator.next();
-
-            if (element.attributeValue("type").equals(userName)) {
-                int integral=Integer.parseInt(element.elementText("integral"));
-                integral+=increaseIntegral;
-                Element integralElement=element.element("integral");
-                integralElement.setText(Integer.toString(integral));
-
-                File inputXML=new File("users.xml");
-                Writer writer=new FileWriter(inputXML);
-                OutputFormat outputFormat=OutputFormat.createPrettyPrint();
-                XMLWriter xmlWriter=new XMLWriter(writer,outputFormat);
-                xmlWriter.write(document);
-                xmlWriter.close();
-            }
-        }
-    }*/
+        this.integral += increaseIntegral;
+        save();
+    }
 
     public boolean isVIP (String userName) throws Exception
     {
-        String context = new Run().ReadFile("C:\\Users\\hp\\IdeaProjects\\Pos\\user.json");
-        JSONArray u = JSONArray.fromObject(context);
-        for(int i=0;i<u.size();i++)
-        {
-            JSONObject user = (JSONObject) u.get(i);
-            if(getUserName().equals(user.getString("user")))
-                vip = true;
-        }
-        return true;
+        return vip;
     }
+
     public String getVIP ()
     {
        if(vip==true)
            return "是";
         return "否";
+    }
+
+    public void save()throws IOException
+    {
+        String stringbuilder = new StringBuilder()
+                .append("[\n{\n")
+                .append("\"user\": 'USER0001',\n")
+                .append("\"integral\":'")
+                .append(this.integral + "'")
+                .append("}\n]\n")
+                .toString();
+
+        WriteToFile(new File("C:\\Users\\hp\\IdeaProjects\\Pos\\integral.json"), stringbuilder);
+    }
+    private void WriteToFile(File file, String content) throws FileNotFoundException {
+        PrintWriter printWriter = new PrintWriter(file);
+        printWriter.write(content);
+        printWriter.close();
     }
 }

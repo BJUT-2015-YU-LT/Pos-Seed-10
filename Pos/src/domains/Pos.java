@@ -20,6 +20,18 @@ public class Pos {
             totalMoney += listItems.get(i).getSubTotal();
             totalSaveMoney += listItems.get(i).getSaveMoney();
         }
+        UsersManager usersManager = new UsersManager();
+        if(usersManager.getIntegral(usersManager.getUserName())>=0&&usersManager.getIntegral(usersManager.getUserName())<=200) {
+            usersManager.increaseIntegral(usersManager.getUserName(),(int)(totalMoney/5));
+        }
+        else if(usersManager.getIntegral(usersManager.getUserName())>200&&usersManager.getIntegral(usersManager.getUserName())<=500)
+        {
+            usersManager.increaseIntegral(usersManager.getUserName(),(3*(int)(totalMoney/5)));
+        }
+        else if(usersManager.getIntegral(usersManager.getUserName())>500)
+        {
+            usersManager.increaseIntegral(usersManager.getUserName(),(5*(int)(totalMoney/5)));
+        }
 
         InetAddress address = InetAddress.getLocalHost();
         String name = address.getHostName();
@@ -28,12 +40,16 @@ public class Pos {
         Calendar calendar= Calendar.getInstance();
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy年MM月dd日hh时mm分ss秒");
         String currentTime=simpleDateFormat.format(calendar.getTime());
-        UsersManager usersManager = new UsersManager();
+
         stringBuilder
                 .append("***商店购物清单***\n")
                 .append("----------------------\n")
-                .append("用户：" + usersManager.getUserName() + "\t会员：" + usersManager.getVIP() + "\n")
-                .append("打印时间：" + currentTime + "\n")
+                .append("用户编号：" + usersManager.getUserName() + "\t会员：" + usersManager.getVIP());
+        if(usersManager.getVIP().equals("是"))
+            stringBuilder.append("\t积分：" + usersManager.getIntegral(usersManager.getUserName()) + "\n");
+        else
+            stringBuilder.append("\n");
+        stringBuilder.append("打印时间：" + currentTime + "\n")
                 .append("操作员：" + name + "\n")
                 .append("----------------------\n");
 

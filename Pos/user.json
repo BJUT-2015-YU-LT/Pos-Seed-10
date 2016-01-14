@@ -1,14 +1,14 @@
 [
   {
     "user": "USER0001",
-    "isVip": "true"
+    "isvip": "true"
   },
   {
     "user": "USER0002",
-    "isVip": "false"
+    "isvip": "false"
   },
   {
     "user": "USER0003",
-    "isVip": "true"
+    "isvip": "true"
   }
 ]
