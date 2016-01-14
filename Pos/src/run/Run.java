@@ -32,7 +32,7 @@ public class Run {
     */
     public ShoppingChart Index() throws  Exception
     {
-        String path = "C:\\Users\\hp\\IdeaProjects\\Pos\\pos1.json";
+        String path = "C:\\Users\\hp\\IdeaProjects\\Pos\\pos2.json";
         String JsonContext = new Run().ReadFile(path);
         JSONArray jsonArray = JSONArray.fromObject(JsonContext);
         ShoppingChart shoppingChart=new ShoppingChart();
@@ -42,11 +42,12 @@ public class Run {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             String barCode=jsonObject.getString("barcode");
             double price = Double.parseDouble(jsonObject.getString("price"));
+            double discount = Double.parseDouble(jsonObject.getString("discount"));
             Item item = new Item(jsonObject.getString("barcode"),jsonObject.getString("name"),
-                    jsonObject.getString("unit"),price);
+                    jsonObject.getString("unit"),price,discount);
             if(!item.iseffect())
             {
-                System.out.println("Discount and promotion can't exist both, barCode: "+item.getBarCode());
+                System.out.println("Discount or price has wrong,barcode"+item.getBarCode());
             }
             if(!item.isNull()){
                 shoppingChart.add(item);

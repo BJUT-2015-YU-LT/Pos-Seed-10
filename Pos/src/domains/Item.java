@@ -8,14 +8,16 @@ public class Item {
     protected String name;
     protected String unit;
     protected double price;
+    protected double discount;
     public Item(){}
-    public Item(String barCode, String name, String unit, double price) {
+
+    public Item(String barCode, String name, String unit, double price,double discount) {
         this.barCode = barCode;
         this.name = name;
         this.unit = unit;
         this.price = price;
+        this.discount = discount;
     }
-
 
     public boolean isNull()
     {
@@ -24,6 +26,8 @@ public class Item {
 
     public boolean iseffect()//商品价格是否有效
     {
+        if(discount>1||discount<0)
+            return false;
         if(price<0)
             return false;
         return true;
@@ -60,4 +64,8 @@ public class Item {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    public double getDiscount() { return discount; }
+
+    public void setDiscount(double discount) { this.discount = discount; }
 }

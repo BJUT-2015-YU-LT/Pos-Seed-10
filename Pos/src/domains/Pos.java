@@ -21,7 +21,6 @@ public class Pos {
         }
 
         StringBuilder stringBuilder = new StringBuilder();
-
         Calendar calendar= Calendar.getInstance();
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy年MM月dd日hh时mm分ss秒");
         String currentTime=simpleDateFormat.format(calendar.getTime());
@@ -52,6 +51,15 @@ public class Pos {
                     .append("小计：").append(String.format("%.2f", listItems.get(i).getSubTotal()))
                     .append("(元)").append("\n");
         }
+        totalMoney = 0;
+        totalSaveMoney = 0;
+        for (int i = 0; i < listItems.size(); i++) {
+            totalMoney+=listItems.get(i).getSubTotal();
+            totalSaveMoney+=listItems.get(i).getSaveMoney();
+        }
+
+        stringBuilder.append("总价：").append(totalMoney).append("(元)").append("\n");
+        stringBuilder.append("节省金额：").append(totalSaveMoney).append("（元）").append("\n");
         stringBuilder.append("**********************\n");
         return stringBuilder.toString();
     }

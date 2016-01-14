@@ -1,5 +1,7 @@
 package domains;
 
+import java.math.BigDecimal;
+
 /**
  * Created by 枫 on 2016/1/5 0005.
  */
@@ -14,14 +16,20 @@ public class ListItem extends Item{
         this.name = item.name;
         this.unit = item.unit;
         this.price = item.price;
+        this.discount = item.discount;
         this.amount = 1;
-        this.subTotal = item.price;//小计
+        this.subTotal = item.price*discount;
+        BigDecimal b1 = new BigDecimal(Double.toString(1));
+        BigDecimal b2 = new BigDecimal(Double.toString(discount));
+        double a = b1.subtract(b2).doubleValue();
+        this.saveMoney = item.price*a;
     }
 
     public void add()
     {
         this.amount+=1;
-        this.subTotal+=this.price;
+        this.subTotal+=this.price*this.discount;
+        this.saveMoney+=this.price*(1-this.discount);
     }
 
     public double getSubTotal() {
@@ -53,4 +61,3 @@ public class ListItem extends Item{
         return canPromotion;
     }
 }
-
