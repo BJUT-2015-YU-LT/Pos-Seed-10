@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class ShoppingListChart {
     private ArrayList<ListItem> listItems=new ArrayList<ListItem>();
     private boolean hasPromotion=false;
+    private double vip;
 
     public  ShoppingListChart(){}
 
@@ -72,5 +73,15 @@ public class ShoppingListChart {
     public  boolean isPromotion()
     {
         return  hasPromotion;
+    }
+
+    public double getvip() { return vip; }
+
+    public void setVip()
+    {
+        for(int i=0;i<listItems.size();i++)
+        {
+            this.vip = listItems.get(i).getVipdiscount();
+        }
     }
 }

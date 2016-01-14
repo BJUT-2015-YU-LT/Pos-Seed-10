@@ -2,9 +2,9 @@ package run;
 
 
 import domains.Item;
+import domains.Pos;
 import domains.ShoppingChart;
 import domains.ShoppingListChart;
-import domains.Pos;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -38,35 +38,34 @@ public class Run {
         String pathlist = "C:\\Users\\hp\\IdeaProjects\\Pos\\list.json";
         String JsonContextlist = run.ReadFile(pathlist);
         JSONArray jsonArray = JSONArray.fromObject(JsonContext);
-        JSONArray jsonArraylist = JSONArray.fromObject(JsonContextlist);
+        //JSONArray jsonArraylist = JSONArray.fromObject(JsonContextlist);
+        JSONObject jsonObjectlist = JSONObject.fromObject(JsonContextlist);
+        JSONArray list = jsonObjectlist.getJSONArray("item");
+
         ShoppingChart shoppingChart=new ShoppingChart();
         int size = jsonArray.size();
-        int sizelist = jsonArraylist.size();
         for(int i=0;i<size;i++)
         {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             String barCode=jsonObject.getString("barcode");
             double price = Double.parseDouble(jsonObject.getString("price"));
-            double discount;    boolean promotion;
+            double vipdiscount = Double.parseDouble(jsonObject.getString("vipdiscount"));
+            double discount;
             Item item;
             if(jsonObject.getString("isdiscount").equals("true"))
                 discount = Double.parseDouble(jsonObject.getString("discount"));
             else
                 discount = 1.0;
-            if(jsonObject.getString("promotion").equals("true"))
-                promotion = true;
-            else
-                promotion = false;
             item = new Item(barCode,jsonObject.getString("name"),jsonObject.getString("unit"),price,
-                    discount,jsonObject.getBoolean("isdiscount"),jsonObject.getBoolean("promotion"));
+                    discount,jsonObject.getBoolean("isdiscount"),jsonObject.getBoolean("promotion"),vipdiscount);
             if(!item.iseffect())
             {
                 System.out.println("Discount or price has wrong,barcode"+item.getBarCode());
             }
             if(!item.isNull()){
                 int j = 0;
-                while(j<jsonArraylist.size()) {
-                    if (jsonArraylist.get(j).equals(item.getBarCode())) {
+                while(j<list.size()) {
+                    if (list.get(j).equals(item.getBarCode())) {
                         shoppingChart.add(item);
                     }
                     j++;

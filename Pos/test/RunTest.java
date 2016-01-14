@@ -1,13 +1,13 @@
-
 import domains.Pos;
 import domains.ShoppingChart;
 import domains.ShoppingListChart;
 import org.junit.Test;
+import run.Run;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
- * Created by gjz on 2016/1/5.
+ * Created by gjz on 2016/1/10.
  */
 public class RunTest {
 
@@ -25,19 +25,24 @@ public class RunTest {
     public void testReadFile() throws Exception {
 
     }
-    public void test() throws Exception{
-
-        ShoppingChart shoppingChart = new ShoppingChart();
+    @Test
+    public  void testRun() throws Exception{
+        ShoppingChart shoppingChart = new Run().Index();
         ShoppingListChart shoppingListChart = new ShoppingListChart(shoppingChart);
         Pos pos = new Pos();
 
         assertEquals(    "***商店购物清单***\n"
-                + "----------------------\n"
-                +" 打印时间：2016年01月05日10时05分29秒\n"
-                +      "  ----------------------\n"
-                + "名称：可口可乐，数量：5瓶，单价：3.00(元)，小计：15.00(元)\n"
-                +        "名称：雪碧，数量：2瓶，单价：3.00(元)，小计：6.00(元)\n"
-                +         "名称：电池，数量：1个，单价：2.00(元)，小计：2.00(元)\n"
-                +        " **********************\n",pos.getShoppingList(shoppingListChart));
+                +"----------------------\n"
+                +" 打印时间：2016年01月10日11时37分03秒\n"
+                +" 操作员：洛北辰\n"
+                +"----------------------\n"
+                +"名称：可口可乐，数量：3瓶，单价：3.00(元)，小计：6.00(元)\n"
+                +"----------------------\n"
+                +"挥泪赠送商品:\n"
+                +"名称：可口可乐，数量：1瓶\n"
+                +"----------------------\n"
+                +"总价：6.0(元)\n"
+                +"节省金额：3.0（元）\n"
+                +" **********************\n",pos.getShoppingList(shoppingListChart));
     }
 }

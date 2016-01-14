@@ -1,0 +1,14 @@
+[
+  {
+    "user": "USER0001",
+    "isvip": "true"
+  },
+  {
+    "user": "USER0002",
+    "isvip": "false"
+  },
+  {
+    "user": "USER0003",
+    "isvip": "true"
+  }
+]

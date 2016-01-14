@@ -9,11 +9,12 @@ public class Item {
     protected String unit;
     protected double price;
     protected double discount;
+    protected double vipdiscount;
     protected boolean isdiscount;
     protected boolean promotion;
     public Item(){}
 
-    public Item(String barCode, String name, String unit, double price,double discount,boolean isdiscount,boolean promotion) {
+    public Item(String barCode, String name, String unit, double price,double discount,boolean isdiscount,boolean promotion,double vipdiscount) {
         this.barCode = barCode;
         this.name = name;
         this.unit = unit;
@@ -21,6 +22,7 @@ public class Item {
         this.discount = discount;
         this.isdiscount = isdiscount;
         this.promotion = promotion;
+        this.vipdiscount = vipdiscount;
     }
 
     public boolean isNull()
@@ -74,4 +76,6 @@ public class Item {
     public double getDiscount() { return discount; }
 
     public void setDiscount(double discount) { this.discount = discount; }
+
+    public double getVipdiscount() { return vipdiscount; }
 }

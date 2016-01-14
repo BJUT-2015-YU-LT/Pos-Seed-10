@@ -1,18 +1,22 @@
 [
-   {
+  {
+        "user" : "USER0001",
         "barcode": "ITEM000000",
         "name": "可口可乐",
         "unit": "瓶",
         "price": "3.00",
         "isdiscount" : "false",
+        "vipdiscount" : "0.90",
         "promotion" : "true"
-    }
+  }
+]
    /* {
         "barcode": "ITEM000001",
         "name": "雪碧",
         "unit": "瓶",
         "price": "3.00",
-        "isdiscount" : "false"
+        "isdiscount" : "false",
+        "vpidiscount":"0.95"
     },
     {
         "barcode":"ITEM000004",
